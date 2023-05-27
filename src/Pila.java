@@ -6,6 +6,15 @@ public class Pila {
     private int limite, tope;
     private Pila NextPila;
 
+
+    public Pila(String materia) {
+        this.name = materia;
+        this.limite=4;
+        this.tope=-1;
+        this.NextPila = null;
+        this.Punta=null;
+    } 
+
     // Metodos Principales
     public Float[] mostrar() {
         // Se usa un array de objetos Float para usar null como diferenciador entre 0 y 0 real
@@ -20,13 +29,14 @@ public class Pila {
         pilaAux.invertir();
         int i = 0;
         while(!pilaAux.pilaVacia()) {
-            aux = pilaAux.desapilar();
+            aux = pilaAux.desapilar().getGradesRating();
             this.apilar(aux);
             a[i] = aux;
             i++;
         }
         return a; 
     }
+    
 
     public void vaciar() {
         while(!pilaVacia()) {
@@ -34,12 +44,25 @@ public class Pila {
         }
     }
 
-    public void apilar(float d) {
-        
+    public void apilar(GradeNode d) { // apilar(desapilar)
+        d.setNextGradeNode(Punta);
+        Punta=d;
+        tope++;
     }
 
-    public float desapilar() {
-        return 0;
+    public void apilar(float d) { // apilar(n)
+        GradeNode x = new GradeNode(d);
+        x.setNextGradeNode(Punta);
+        Punta=x;
+        tope++;
+    }
+
+    public GradeNode desapilar() {
+        GradeNode a = Punta;
+        Punta = Punta.getNextGradeNode();
+        a.setNextGradeNode(null);
+        tope--;
+        return a;
     }
 
     public void invertir () {

@@ -9,8 +9,10 @@ public class StudentNode {
         this.apellido = apellido;
         this.carrera = carrera;
         this.cedula = cedula;
+        this.materias = new Cola();
         this.nextStudent = null;
     }
+
 
     // Getters and Setters
     public StudentNode getNextStudent() {
