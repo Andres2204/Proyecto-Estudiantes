@@ -6,14 +6,32 @@ public class Pila {
     private int limite, tope;
     private Pila NextPila;
 
-
+    // contructor
     public Pila(String materia) {
         this.name = materia;
         this.limite=4;
         this.tope=-1;
         this.NextPila = null;
         this.Punta=null;
+        
+        // crear el espacio para las 4 notas
+        for (int i = 0; i < limite; i++) this.apilar(0);
     } 
+
+    public Pila() {
+        this.limite = 4;
+        this.tope=-1;
+        this.NextPila = null;
+        this.Punta=null;
+    }
+
+    public void update_grade(int index, float newGrade) {
+        GradeNode p = Punta;
+        for (int i = 0; i < index; i++) {
+            p = p.getNextGradeNode();
+        }
+        p.setGradesRating(newGrade);
+    }
 
     // Metodos Principales
     public Float[] mostrar() {
@@ -37,7 +55,6 @@ public class Pila {
         return a; 
     }
     
-
     public void vaciar() {
         while(!pilaVacia()) {
             desapilar();
@@ -94,14 +111,6 @@ public class Pila {
     }
     public boolean pilaVacia() {
         return tope == -1 ? true : false;
-    }
-
-    // Constructor
-    public Pila () {   
-        Punta = null;
-        limite = 4;
-        tope = -1;
-        NextPila = null;
     }
 
     // Getters and Setters

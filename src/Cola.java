@@ -2,22 +2,28 @@ public class Cola {
     private Pila punta;
 
     public Cola() {
-        punta = new Pila("Nombre de materia");
-        punta.apilar(2);
-        punta.apilar(2);
+        punta = null;
     }
 
     public void add_materia(String materia) {
-        if( isEmpty() ) {
-            punta = new Pila();
-        } else {
-            Pila p = punta;
-            while(p.getNextPila() != null) {
-                p = p.getNextPila();
+        encolar(new Pila(materia));
+    }
+
+    public void update_materia() {
+
+    }
+
+    public Pila search_materia(String name) {
+        Pila p = punta;
+        while(p!=null) {
+            if(p.getName() == name) {
+                break;
             }
-            p.setNextPila(new Pila());
+
+            p = p.getNextPila();
         }
-    }    
+        return p;
+    }
 
     public Pila desencolar() {
         Pila p = punta;
@@ -26,14 +32,20 @@ public class Cola {
         return p;
     }
 
-    public void encolar(float r) {
-        Pila n = new Pila();
+    public void encolar(Pila n) {
+        if ( isEmpty() ){
+            punta = n;
+            return;
+        }
+
         Pila p = punta;
         while(p.getNextPila() != null) {
             p = p.getNextPila();
         }
         p.setNextPila(n);
     }
+
+
 
     public boolean isEmpty() {
         return punta == null;

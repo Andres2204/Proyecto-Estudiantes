@@ -13,6 +13,14 @@ public class StudentNode {
         this.nextStudent = null;
     }
 
+    public void add_materia(String name) {
+        materias.add_materia(name);
+    }
+
+    public void update_grade(int index, float newGrade, String materia) {
+        materias.search_materia(materia).update_grade(index - 1, newGrade);
+    }
+
 
     // Getters and Setters
     public StudentNode getNextStudent() {

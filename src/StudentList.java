@@ -6,13 +6,15 @@ public class StudentList {
 
         outputNode[] vec = new outputNode[this.size()];
         int i = 0;
-        Float a[];
-
+        Float a[][] = new Float[4][4];
+        String[] nombre_materias;
         while (p != null) {
-            for(int j = 0; j<p.getMaterias().getPilasNotas().length; j++) {
-                a = p.getMaterias().getPilasNotas()[j].mostrar();
-                vec[i] = new outputNode(p.getNombre()+p.getApellido(),p.getCarrera(),p.getCedula(), a, p.getMaterias().getPilasNotas()[j].getName());
+            nombre_materias = new String[p.getMaterias().getPilasNotas().length];
+            for(int j = 0; j<p.getMaterias().getPilasNotas().length; j++) { // iterar en todas la devuletas
+                nombre_materias[j] = p.getMaterias().getPilasNotas()[j].getName();
+                a[j] = p.getMaterias().getPilasNotas()[j].mostrar(); // a = las notas de la pila en posicion j
             }
+            vec[i] = new outputNode(p.getNombre()+p.getApellido(),p.getCarrera(),p.getCedula(), a, nombre_materias ,p.getMaterias().getPilasNotas().length);
             i++;
             p = p.getNextStudent();
         }
@@ -20,17 +22,30 @@ public class StudentList {
         return vec;
     }
 
-    public void add_student() {
+    public void add_student(String nombre, String apellido, String carrera, String cedula) {
         if( isEmpty() ) {
-            start = new StudentNode("pepito", "alcachofa", "boxeador", "12345678");
+            start = new StudentNode(nombre, apellido, carrera, cedula);
         } else {
             StudentNode p = start;
             while(p.getNextStudent() != null) {
                 p = p.getNextStudent();
             }
-            p.setNextStudent(new StudentNode("pepito", "alcachofa", "boxeador", "12345678"));
+            p.setNextStudent(new StudentNode(nombre, apellido, carrera, cedula));
         }
     }
+
+
+    public StudentNode search_student(String cc) {
+        StudentNode p = start;
+        while(p != null) {
+            if (p.getCedula() == cc) {
+                break;
+            }
+            p = p.getNextStudent();
+        }
+        return p;
+    }
+
     
 
     // >--------------[ UTILITY ]--------------<

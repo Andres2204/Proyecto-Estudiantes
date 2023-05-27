@@ -1,31 +1,37 @@
 public class outputNode {
     private String nombre_completo, curso, cedula;  
-    private String[] fullMateria = new String[6];
+    private String[][] fullMateria;
 
 
-    public outputNode(String nombre_completo, String curso, String cedula, Float[] notas, String materia) {
+    public outputNode(String nombre_completo, String curso, String cedula, Float[][] notas, String[] materia, int n_materias) {
+        fullMateria  = new String[n_materias][6];
         this.nombre_completo = nombre_completo;
         this.curso = curso;
         this.cedula = cedula;
         
-        // promedio
+
+        for (int i = 0; i < n_materias; i++) {
+            fullMateria[i][0] = materia[i];
+            fullMateria[i][1] = String.format("%f", promedio(notas[i]));
+            for (int j = 0; j < notas[i].length; j++) {
+                if(notas[i][j] == null) {
+                    this.fullMateria[i][j+2] = "asd";
+                } else {
+                    this.fullMateria[i][j+2] = notas[i][j].toString();
+                }
+            }
+        }
+
+    }
+
+    public float promedio(Float[] vec) {
         float contador=0;
-        for (int i = 0; i < notas.length; i++) {
-            if(notas[i] != null) {
-                contador += notas[i];
-            }
+
+        for (int i = 0; i < vec.length; i++) {
+            contador+=vec[i];
         }
 
-        this.fullMateria[0] = materia;
-        this.fullMateria[1] = String.format("%f", contador/notas.length);
-        for (int i = 0; i < notas.length; i++) {
-            if(notas[i] == null) {
-                this.fullMateria[i+2] = "asd";
-            } else {
-                this.fullMateria[i+2] = notas[i].toString();
-            }
-        }
-
+        return contador/4;
     }
     
     // getters and setters
@@ -47,15 +53,10 @@ public class outputNode {
     public void setCedula(String cedula) {
         this.cedula = cedula;
     }
-    public String[] getfullMateria() {
+    public String[][] getfullMateria() {
         return fullMateria;
     }
-    public void setfullMateria(String[] fullMateria) {
+    public void setfullMateria(String[][] fullMateria) {
         this.fullMateria = fullMateria;
     }
-
-
-
-
-
 }
