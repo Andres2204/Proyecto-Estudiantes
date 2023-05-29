@@ -1,25 +1,34 @@
-public class StudentList {
+public class StudentList extends Exception {
     private StudentNode start = null;
 
-    public outputNode[] showStudents() { // returns a string with the list
+    public outputNode[] showAllStudents() { // returns a string with the list
         StudentNode p = start;
 
         outputNode[] vec = new outputNode[this.size()];
         int i = 0;
-        Float a[][] = new Float[4][4];
-        String[] nombre_materias;
+        
         while (p != null) {
-            nombre_materias = new String[p.getMaterias().getPilasNotas().length];
-            for(int j = 0; j<p.getMaterias().getPilasNotas().length; j++) { // iterar en todas la devuletas
-                nombre_materias[j] = p.getMaterias().getPilasNotas()[j].getName();
-                a[j] = p.getMaterias().getPilasNotas()[j].mostrar(); // a = las notas de la pila en posicion j
-            }
-            vec[i] = new outputNode(p.getNombre()+p.getApellido(),p.getCarrera(),p.getCedula(), a, nombre_materias ,p.getMaterias().getPilasNotas().length);
+            vec[i] = new outputNode(p.getNombre()+" "+p.getApellido(),p.getCarrera(),p.getCedula());
             i++;
             p = p.getNextStudent();
         }
         
         return vec;
+    }
+
+    public outputNode showStudent(String cc) {
+        StudentNode p = search_student(cc);
+        if (p==null) return null;
+        Float a[][] = new Float[p.getMaterias().getPilasNotas().length][4];
+        String[] nombre_materias;
+        nombre_materias = new String[p.getMaterias().getPilasNotas().length];
+        for(int j = 0; j<p.getMaterias().getPilasNotas().length; j++) { // iterar en todas la devuletas
+            nombre_materias[j] = p.getMaterias().getPilasNotas()[j].getName();
+            a[j] = p.getMaterias().getPilasNotas()[j].mostrar(); // a = las notas de la pila en posicion j
+        }
+       return new outputNode(p.getNombre()+" "+p.getApellido(),p.getCarrera(),p.getCedula(), a, nombre_materias ,p.getMaterias().getPilasNotas().length);
+
+
     }
 
     public void add_student(String nombre, String apellido, String carrera, String cedula) {
@@ -38,7 +47,7 @@ public class StudentList {
     public StudentNode search_student(String cc) {
         StudentNode p = start;
         while(p != null) {
-            if (p.getCedula() == cc) {
+            if (p.getCedula().equals(cc)) {
                 break;
             }
             p = p.getNextStudent();

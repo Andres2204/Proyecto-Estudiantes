@@ -23,6 +23,11 @@ public class outputNode {
         }
 
     }
+    public outputNode(String nombre_completo, String curso, String cedula) {
+        this.nombre_completo = nombre_completo;
+        this.curso = curso;
+        this.cedula = cedula;
+    }
 
     public float promedio(Float[] vec) {
         float contador=0;
