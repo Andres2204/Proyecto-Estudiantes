@@ -18,7 +18,7 @@ public class StudentNode {
     }
 
     public void update_grade(int index, float newGrade, String materia) {
-        materias.search_materia(materia).update_grade(index - 1, newGrade);
+        materias.search_materia(materia).update_grade(index , newGrade);
     }
 
 

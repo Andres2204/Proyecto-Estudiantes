@@ -1,48 +1,74 @@
 public class Cola {
-    private Pila punta;
+    private ColaNodo punta;
 
     public Cola() {
         punta = null;
     }
 
     public void add_materia(String materia) {
-        encolar(new Pila(materia));
+        encolar(new ColaNodo(materia));
     }
 
     public void update_materia() {
 
     }
 
-    public Pila search_materia(String name) {
-        Pila p = punta;
-        while(p!=null) {
-            if(p.getName() == name) {
-                break;
-            }
+    public String[] getNombreMaterias() {
+        String[] nombres = new String[size()];
+        int c = 0;
+        ColaNodo aux = null; 
+        for(int i = 0; i<size(); i++) {
+            aux = desencolar();
+            nombres[c] = aux.getMateria();
+            c++;
+            encolar(aux);
+        }
+        return nombres;
+    }
+    
+    public Pila[] getPilasNotas() {
+        Pila[] pilas = new Pila[size()];
+        int c = 0;
+        ColaNodo aux = null; 
+        for(int i = 0; i<size(); i++) {
+            aux = desencolar();
+            pilas[c] = aux.getPila();
+            c++;
+            encolar(aux);
+        }
+        
+        return pilas;
+    }
 
-            p = p.getNextPila();
+    public ColaNodo search_materia(String name) {
+        ColaNodo p = null;
+        ColaNodo aux = null;
+        for(int i = 0; i<size(); i++) {
+            aux = desencolar();
+            if(aux.getMateria().equals(name)) p = aux;
+            encolar(aux);
         }
         return p;
     }
 
-    public Pila desencolar() {
-        Pila p = punta;
-        punta = punta.getNextPila();
-        p.setNextPila(null);
+    public ColaNodo desencolar() {
+        ColaNodo p = punta;
+        punta = punta.getNextColaNodo();
+        p.setNextColaNodo(null);
         return p;
     }
 
-    public void encolar(Pila n) {
+    public void encolar(ColaNodo n) {
         if ( isEmpty() ){
             punta = n;
             return;
         }
 
-        Pila p = punta;
-        while(p.getNextPila() != null) {
-            p = p.getNextPila();
+        ColaNodo p = punta;
+        while(p.getNextColaNodo() != null) {
+            p = p.getNextColaNodo();
         }
-        p.setNextPila(n);
+        p.setNextColaNodo(n);
     }
 
 
@@ -53,10 +79,10 @@ public class Cola {
 
     public int size() {
         int c = 0;
-        Pila p = punta;
+        ColaNodo p = punta;
         while(p != null) {
-            p = p.getNextPila();
             c++;
+            p = p.getNextColaNodo();
         }
         return c;
     }
@@ -65,23 +91,23 @@ public class Cola {
 
     // getter and setters
 
-    public Pila[] getPilasNotas() {
-        Pila p = punta;
-        Pila pilas[] = new Pila[size()];
+    public ColaNodo[] getColaNodosNotas() {
+        ColaNodo p = punta;
+        ColaNodo ColaNodos[] = new ColaNodo[size()];
         int i = 0;
         while (p != null) {
-            pilas[i] = p;
+            ColaNodos[i] = p;
             i++;
-            p = p.getNextPila();
+            p = p.getNextColaNodo();
         }
 
-        return pilas;
+        return ColaNodos;
     }
 
-    public Pila getPunta() {
+    public ColaNodo getPunta() {
         return punta;
     }
-    public void setPunta(Pila punta) {
+    public void setPunta(ColaNodo punta) {
         this.punta = punta;
     }
 }

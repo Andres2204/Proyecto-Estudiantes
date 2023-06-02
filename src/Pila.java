@@ -1,36 +1,40 @@
 import java.util.Arrays;
 
 public class Pila {
-    private String name;
-    private GradeNode Punta;
     private int limite, tope;
-    private Pila NextPila;
+    private Float vec[];
+    
 
     // contructor
-    public Pila(String materia) {
-        this.name = materia;
+    public Pila() {
         this.limite=4;
         this.tope=-1;
-        this.NextPila = null;
-        this.Punta=null;
+        vec = new Float[limite];
+        Arrays.fill(vec, null);
         
         // crear el espacio para las 4 notas
         for (int i = 0; i < limite; i++) this.apilar(0);
-    } 
-
-    public Pila() {
-        this.limite = 4;
-        this.tope=-1;
-        this.NextPila = null;
-        this.Punta=null;
     }
 
-    public void update_grade(int index, float newGrade) {
-        GradeNode p = Punta;
+    public Pila(boolean a) {
+        this.limite=4;
+        this.tope=-1;
+        vec = new Float[limite];
+    }
+
+    public void update_grade(int index, float newGrade) { // Actualizar
+        Pila aux = new Pila(true);
+        
         for (int i = 0; i < index; i++) {
-            p = p.getNextGradeNode();
+            aux.apilar(this.desapilar());
         }
-        p.setGradesRating(newGrade);
+
+        aux.desapilar();
+        this.apilar(newGrade);
+
+        for (int i = 0; i < index-1; i++) {
+            apilar(aux.desapilar());
+        }
     }
 
     // Metodos Principales
@@ -39,7 +43,7 @@ public class Pila {
         Float[] a = new Float[limite];
         Arrays.fill(a, null);
 
-        Pila pilaAux = new Pila();
+        Pila pilaAux = new Pila(true);
         float aux = 0;
         while (!pilaVacia()){
             pilaAux.apilar(this.desapilar());
@@ -47,7 +51,7 @@ public class Pila {
         pilaAux.invertir();
         int i = 0;
         while(!pilaAux.pilaVacia()) {
-            aux = pilaAux.desapilar().getGradesRating();
+            aux = pilaAux.desapilar();
             this.apilar(aux);
             a[i] = aux;
             i++;
@@ -61,30 +65,21 @@ public class Pila {
         }
     }
 
-    public void apilar(GradeNode d) { // apilar(desapilar)
-        d.setNextGradeNode(Punta);
-        Punta=d;
-        tope++;
-    }
-
     public void apilar(float d) { // apilar(n)
-        GradeNode x = new GradeNode(d);
-        x.setNextGradeNode(Punta);
-        Punta=x;
         tope++;
+        vec[tope] = d;
     }
 
-    public GradeNode desapilar() {
-        GradeNode a = Punta;
-        Punta = Punta.getNextGradeNode();
-        a.setNextGradeNode(null);
-        tope--;
-        return a;
-    }
+    public float desapilar(){
+		float aux = vec[tope];
+		tope--;
+		return aux;
+	}
+
 
     public void invertir () {
-        Pila aux1 = new Pila();
-        Pila aux2 = new Pila();
+        Pila aux1 = new Pila(true);
+        Pila aux2 = new Pila(true);
 
         while(!pilaVacia()) {
             aux1.apilar(this.desapilar());
@@ -114,24 +109,6 @@ public class Pila {
     }
 
     // Getters and Setters
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Pila getNextPila() {
-        return NextPila;
-    }
-    public void setNextPila(Pila nextPila) {
-        NextPila = nextPila;
-    }
-    public GradeNode getPunta() {
-        return Punta;
-    }
-    public void setPunta(GradeNode punta) {
-        Punta = punta;
-    }
     public int getLimite() {
         return limite;
     }

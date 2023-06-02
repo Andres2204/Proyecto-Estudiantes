@@ -19,16 +19,16 @@ public class StudentList extends Exception {
     public outputNode showStudent(String cc) {
         StudentNode p = search_student(cc);
         if (p==null) return null;
-        Float a[][] = new Float[p.getMaterias().getPilasNotas().length][4];
+
+        Float a[][] = new Float[p.getMaterias().getNombreMaterias().length][4];
         String[] nombre_materias;
-        nombre_materias = new String[p.getMaterias().getPilasNotas().length];
-        for(int j = 0; j<p.getMaterias().getPilasNotas().length; j++) { // iterar en todas la devuletas
-            nombre_materias[j] = p.getMaterias().getPilasNotas()[j].getName();
+        nombre_materias = new String[p.getMaterias().getNombreMaterias().length];
+
+        for(int j = 0; j<p.getMaterias().getNombreMaterias().length; j++) { // iterar en todas la devuletas
+            nombre_materias[j] = p.getMaterias().getNombreMaterias()[j];
             a[j] = p.getMaterias().getPilasNotas()[j].mostrar(); // a = las notas de la pila en posicion j
         }
-       return new outputNode(p.getNombre()+" "+p.getApellido(),p.getCarrera(),p.getCedula(), a, nombre_materias ,p.getMaterias().getPilasNotas().length);
-
-
+        return new outputNode(p.getNombre()+" "+p.getApellido(),p.getCarrera(),p.getCedula(), a, nombre_materias ,p.getMaterias().getNombreMaterias().length);
     }
 
     public void add_student(String nombre, String apellido, String carrera, String cedula) {
